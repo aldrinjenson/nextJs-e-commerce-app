@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import AddModal from "../components/AddModal";
 import styles from "../styles/Products.module.css";
 import { supabase } from "../utils/supabaseClient";
+import { Rings } from "react-loader-spinner";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -32,9 +33,40 @@ const Products = () => {
     getData();
   }, []);
 
-  // if (!user) {
-  //   router.push("/signin");
-  // }
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      else {
+        alert("successfully logged out");
+        router.push("/signin");
+      }
+    } catch (err) {
+      console.log("Error in signing out: " + err);
+      alert("There seems to be some error in signing out.\n" + err);
+    }
+  };
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/signin");
+    }
+  }, [router, user]);
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Rings color='#00BFFF' height={200} width={200} />;
+      </div>
+    );
+  }
   return (
     <div className='products'>
       <Head>
@@ -42,6 +74,23 @@ const Products = () => {
         <meta name='description' content='Products list' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "5px 2rem",
+        }}
+      >
+        <h1>Products</h1>
+
+        <button
+          className='button-18'
+          style={{ padding: "2em", height: "1em", marginTop: "1em" }}
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+      </div>
       <ul>
         {products.map((p) => (
           <li key={p.id}>

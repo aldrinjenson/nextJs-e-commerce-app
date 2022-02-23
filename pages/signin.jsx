@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
@@ -36,63 +37,50 @@ export default function Signin() {
   };
 
   return (
-    <div className='signin' style={{ display: "flex" }}>
-      <div className='design'>
-        <Image src='/pic.svg' alt='Pic Logo' width={400} height={300} />
-      </div>
-      <div className='form'>
-        <div className='form-control'>
-          <h1 style={{ textDecoration: "underline" }}>Login</h1>
-          <input
-            id='email'
-            type='text'
-            placeholder='Enter email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            id='pass'
-            type='password'
-            value={password}
-            placeholder='Enter password'
-            onChange={(e) => setPassword(e.target.value)}
-          />
+    <div>
+      <div
+        className='signin'
+        style={{
+          display: "flex",
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <div className='design'>
+          <Image src='/pic.svg' alt='Pic Logo' width={400} height={300} />
+        </div>
+        <div className='form'>
+          <div className='form-control'>
+            <h1 style={{ textDecoration: "underline" }}>Login</h1>
+            <input
+              id='email'
+              type='text'
+              placeholder='Enter email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              id='pass'
+              type='password'
+              value={password}
+              placeholder='Enter password'
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-          <button className='button-22' onClick={handleLogin}>
-            Login
-          </button>
-          <br />
-          <p className='login-subtext'>
-            New User? <a href='./signup'>Signup</a>
-          </p>
+            <button className='button-22' onClick={handleLogin}>
+              Login
+            </button>
+            <br />
+            <p className='login-subtext'>
+              New User?{" "}
+              <Link href='./signup'>
+                <a>Signup</a>
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
-// import { useState, useEffect } from "react";
-// import { supabase } from "../utils/supabaseClient";
-// import Auth from "../components/Auth";
-// import Account from "../components/Account";
-
-// export default function Home() {
-//   const [session, setSession] = useState(null);
-
-//   useEffect(() => {
-//     setSession(supabase.auth.session());
-//     supabase.auth.onAuthStateChange((_event, session) => {
-//       setSession(session);
-//     });
-//   }, []);
-
-//   return (
-//     <div className='container' style={{ padding: "50px 0px 100px 0px" }}>
-//       {!session ? (
-//         <Auth />
-//       ) : (
-//         <Account key={session.user.id} session={session} />
-//       )}
-//     </div>
-//   );
-// }
